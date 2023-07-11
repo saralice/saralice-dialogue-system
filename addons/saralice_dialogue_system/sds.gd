@@ -510,4 +510,3 @@ func _on_next_command_invoked():
 
 func _on_jump_parsed(label:String):
 	jump_to(label)
-

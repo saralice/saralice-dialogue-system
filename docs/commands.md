@@ -1,4 +1,3 @@
-
 # Commands
 
 ## `@bg`
@@ -8,7 +7,7 @@ Shows/hide a background.
 |Parameter | Required | Type | Value |
 |--|--|--|--|
 |id| Yes| String| Id for the background, or **HIDE** if you want to hide the background|
-|effect|No| String |Name of the effect|
+|effect|No| String |Name of the effect. Default: null|
 
 
 ### Syntax
@@ -72,7 +71,7 @@ If you want to use an effect, use effect:name ([color=green]effect:fade_in[/colo
 |--|--|--|--|
 |id.expression| Yes| String | Id and an expression for a character (saralice.smile) or **HIDE** to hide a character
 |position|Yes|String | Position of the character (left/center/right).Default: left.
-|effect|No|String|Effect name to apply to the character
+|effect|No|String|Effect name to apply to the character. Default: null
 |wait|No|Bool|Skip / Wait until effect animation is completed. Default: true
 
 
@@ -223,18 +222,18 @@ Executes an asynchronous function (It doesn't wait for the function to complete)
 
 ### Syntax
 
-	@function_async name [arg1 arg2 ... arg8]
+	@function_async autoload_name.function_name [arg1 arg2 ... arg8]
 
 ### Command examples
 
-Execute a function name **hello_async** with one argument with value **player**
+Execute a function name **hello_async** in autoload **Test** with one argument with value **player**
 
-	@function_async hello_async player
+	@function_async Test.hello_async player
 
 
 ### Signal emitted example
 
-	SDS.function_async_parsed({"function":"hello", "args":["Saralice"]})
+	No signal emitted. It will be handled automatically.
 
 ## `@function_sync`
 
@@ -248,17 +247,244 @@ Executes a synchronous function. It waits until it finishes.
 
 ### Syntax
 
-	@function_sync name [arg1 arg2 ... arg8]
+	@function_sync autoload_name.function_name [arg1 arg2 ... arg8]
 
 ### Command examples
 
-Execute a function name **hello_sync** with one argument with value **player**
+Execute a function name **hello_sync** in autoload **Test** with one argument with value **player**
 
-	@function_sync hello_sync player
+	@function_sync Test.hello_sync player
 
 
 ### Signal emitted example
 
-	SDS.function_sync_parsed({"function":"hello", "args":["Saralice"]})
+	No signal emitted. It will be handled automatically.
+
+## `@if,@else,@endif`
+
+These commands don't emit a signal. A condition is evaluated, and depending on the result, executes the "if" or the "else" block. If you want nested conditions, put another if block inside the else.The variables must exist in an autoload to detect them.
+
+### Syntax
+
+	@if left_operand operator right_operand
+		code
+	[@else
+			code]
+	@endif
+
+### Command examples
+
+If we have an autoload called **State** with 2 bool values, **a=true**, **b=false**, and we have the following code:
+
+	  @if State.a == true
+		  A is true
+		  @if State.b == true
+				B is true
+		  @else
+				B is false
+		  @endif
+	  @else
+		  A is false
+	  @endif
+
+Then the dialogue will be "A is true, B is false".
+
+### Signal emitted example
+
+	No signal emitted. It will be handled automatically.
+
+## `@img`
+
+Shows/hide an image.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|id| Yes| String| Id for the image|
+|effect|No| String | Effect name for the image. Default: null|
 
 
+### Syntax
+
+	@img id|HIDE [effect:name]
+
+### Command examples
+
+Show the image with id **rubber_duck** with effect **gray**.
+
+	@img rubber_duck effect:gray
+
+Hide the image
+
+	@img HIDE
+
+### Signal emitted example
+
+	SDS.img_parsed({"id":"rubber_duck", "effect": null})
+
+## `@jump`
+
+"Jumps" to the specified label, ignoring other commands.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|name| Yes| String| Label name|
+
+
+### Syntax
+
+	@jump label_name
+
+### Command examples
+
+Jump to a label named menu_6
+
+	@jump menu_6
+
+### Signal emitted example
+
+	No signal emitted. It will be handled automatically.
+
+
+
+## `@label`
+
+It defines a section. You can use it to start the dialogue in a specific point, or to jump to an specific label.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|name| Yes| String| Label name|
+
+
+### Syntax
+
+	@label name
+
+### Command examples
+
+Define a section named **start**
+
+	@label start
+
+### Signal emitted example
+
+	No signal emitted. It will be handled automatically.
+
+## `@name`
+
+Sets the character name.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|name| Yes| String| Actor name|
+
+### Syntax
+
+	@name name
+
+### Command examples
+
+Set the character name to **Jenny**
+
+	@name Jenny
+
+### Signal emitted example
+
+	SDS.name_parsed({"name":"Saralice"})
+
+
+## `@set`
+
+Sets a value to a variable. The variable must exist in an autoload.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|variable| Yes| String| Autoload variable to set value to|
+|operator| Yes| String| Operator to use, like =, +=, -=|
+|value| Yes| String| Value to use|
+
+
+### Syntax
+
+	@set variable operator value
+
+### Command examples
+
+Set variable **a** of autoload **State** to **false**
+
+	@set State.a = false
+
+### Signal emitted example
+
+	No signal emitted. It will be handled automatically.
+
+## `@sfx`
+
+Plays a sound effect.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|id| Yes| String | Id for the sound effect|
+|wait| No| Bool | Wait for the sound effect to finish. Default: false|
+
+
+### Syntax
+
+	@sfx id [wait:false]
+
+### Command examples
+
+Play a sound effect with id **cellphone_ring**. **Wait** until it finishes playing.
+
+	@sfx cellphone_ring wait:true
+
+Play a sound effect with id **beep**.
+
+	@bgm STOP
+
+
+### Signal emitted example
+
+	SDS.sfx_parsed({"id": "name", "wait": false})
+
+## `@signal`
+
+Searches if an autoload has a signal with the specified name, and if found, it emits the signal.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|name| Yes| String | Signal name|
+|arg1...arg8|No| String | Up to 8 arguments to use in the signal, each one separated by a space.|
+
+
+### Syntax
+
+	@signal name [arg1 arg2 ... arg8]
+
+### Command examples
+
+Emit a signal named **sds_test** with an argument **hello**.
+
+	@signal sds_test hello
+
+## `@wait`
+
+It pauses execution for the specified amount of seconds.
+
+|Parameter | Required | Type | Value |
+|--|--|--|--|
+|seconds| Yes| Float| Number of seconds to wait|
+
+
+### Syntax
+
+	@wait seconds
+
+### Command examples
+
+Pause execution for 3 seconds.
+
+	@wait 3.0
+
+### Signal emitted example
+
+	No signal emitted. It will be handled automatically.
