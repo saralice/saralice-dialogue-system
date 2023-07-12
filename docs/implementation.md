@@ -25,8 +25,9 @@ For simplicity, most of the dialogue system use "ids". For example **@bg city**,
 
 ## Demo
 
-Online demo
+[Online demo](https://saralice.itch.io/sds-demo)
 
-Sample dialogue
+[Sample dialogue](https://github.com/saralice/sds-demo/blob/main/data/dialogues/example.txt)
 
-Demo code
+[Demo code](https://github.com/saralice/sds-demo)
+
