@@ -99,7 +99,7 @@ Hide character at position **left**
 
 ## `@choice`
 
-Show choices. You can use multiple choices (one per line). When you select a choice, it will jump to the corresponding label.
+Show choices. You can use multiple choices (one per line). When you select a choice, you can jump to the corresponding label.
 
 |Parameter | Required | Type | Value |
 |--|--|--|--|
@@ -216,7 +216,7 @@ Executes an asynchronous function (It doesn't wait for the function to complete)
 
 |Parameter | Required | Type | Value |
 |--|--|--|--|
-|name| Yes| String| Name of the function to execute|
+|autoload.name| Yes| String| Autoload and name of the function to execute|
 |arg1...arg8|No| String | Up to 8 arguments to use in the function, each one separated by a space.|
 
 
@@ -299,7 +299,7 @@ Shows/hide an image.
 
 |Parameter | Required | Type | Value |
 |--|--|--|--|
-|id| Yes| String| Id for the image|
+|id| Yes| String| Id for the image, or HIDE to hide it|
 |effect|No| String | Effect name for the image. Default: null|
 
 
@@ -342,7 +342,7 @@ Jump to a label named menu_6
 
 ### Signal emitted example
 
-	No signal emitted. It will be handled automatically.
+	No signal emitted. You can emit a signal when you want to jump to an specific label.
 
 
 
@@ -375,7 +375,7 @@ Sets the character name.
 
 |Parameter | Required | Type | Value |
 |--|--|--|--|
-|name| Yes| String| Actor name|
+|name| Yes| String| Character name|
 
 ### Syntax
 
@@ -394,7 +394,7 @@ Set the character name to **Jenny**
 
 ## `@set`
 
-Sets a value to a variable. The variable must exist in an autoload.
+Sets a value to a variable. The variable must exist in the autoload.
 
 |Parameter | Required | Type | Value |
 |--|--|--|--|
@@ -439,7 +439,7 @@ Play a sound effect with id **cellphone_ring**. **Wait** until it finishes playi
 
 Play a sound effect with id **beep**.
 
-	@bgm STOP
+	@sfx STOP
 
 
 ### Signal emitted example
