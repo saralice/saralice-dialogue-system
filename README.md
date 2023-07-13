@@ -3,6 +3,8 @@
 
 This addon for [Godot 4](https://godotengine.org/)   provides a a basic dialogue system using signals. You write your dialogue in a text file with a defined syntax.
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J8N368J)
+
 ## Getting started
 
 -   [Download a copy](https://github.com/saralice/saralice-dialogue-system/archive/refs/heads/main.zip) of the addon, or clone the project.
